@@ -1,16 +1,40 @@
+import Backend from "https://madata.dev/src/index.js";
+
+
+let backend = Backend.from("https://github.com/nik-ab/studio9-starter/data.json");
+
 // Get references to DOM elements
 export const dom = {
 	tasksList: document.querySelector("#tasks_list"),
+	taskscontainer: document.querySelector("#tasks_container"),
 	taskTemplate: document.querySelector("#task_template"),
 	doneCount: document.querySelector("#done_count"),
 	totalCount: document.querySelector("#total_count"),
 	saveButton: document.querySelector("#save_button"),
+	app: document.querySelector("#app"),
+	loginButton:  document.querySelector("#login_button"),
+	logoutButton:  document.querySelector("#logout_button"),
 };
 
+dom.app.classList.add("loading");
+dom.loginButton.addEventListener("click", evt => backend.login());
+dom.logoutButton.addEventListener("click", evt => backend.logout());
+
+backend.addEventListener("mv-login", evt => {
+	dom.app.classList.add("logged-in");
+});
+
+backend.addEventListener("mv-logout", evt => {
+	// Hide user-related UI
+	dom.app.classList.remove("logged-in");
+});
+
 // Initialize data. Do we have anything stored?
-if (localStorage.tasks) {
-	let tasks = JSON.parse(localStorage.tasks);
-	for (let task of tasks) {
+
+const data = await backend.load();
+
+if (data) {
+	for (let task of data) {
 		addItem(task);
 	}
 }
@@ -19,9 +43,18 @@ else {
 	addItem();
 }
 
+dom.app.classList.remove("loading");
 // Save when the save button is clicked
-dom.saveButton.addEventListener("click", e => {
-	localStorage.tasks = JSON.stringify(getData());
+dom.saveButton.addEventListener("click", async e => {
+	
+	dom.app.classList.add("saving");
+	dom.taskscontainer.disabled = true;
+	await backend.store(JSON.stringify(getData()));
+	
+	dom.app.classList.remove("saving");
+	
+	dom.taskscontainer.disabled = false;
+
 });
 
 // Keyboard shortcuts

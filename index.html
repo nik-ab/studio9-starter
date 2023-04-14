@@ -13,22 +13,28 @@ globalThis.app = app;
 
 </head>
 <body>
-	<div id="app">
+	<div id="app" class = "loading">
 		<div class="backend-controls">
+			<button id = "login_button"> Log in</button>
+			<button id = "logout_button">Log out</button>
 			<button id="save_button">Save</button>
+			<img id = "save_loader" src = "img/loader.svg"/>
 		</div>
-		<h1><span id="done_count">0</span> done of <span id="total_count">1</span> total</h1>
-		<ul id="tasks_list"></ul>
-		<template id="task_template">
-			<li>
-				<input type="checkbox" aria-label="Done?" class="done">
-				<input type="text" aria-label="Task" class="title">
-				<button class="delete">x</button>
-			</li>
-		</template>
+		<img id = "loader" src = "img/loader.svg"/>
+		<fieldset id = "tasks_container">
+			<h1><span id="done_count">0</span> done of <span id="total_count">1</span> total</h1>
+			<ul id="tasks_list"></ul>
+			<template id="task_template">
+				<li>
+					<input type="checkbox" aria-label="Done?" class="done">
+					<input type="text" aria-label="Task" class="title">
+					<button class="delete">x</button>
+				</li>
+			</template>
 
-		<button onclick="app.addItem()">Add item</button>
-		<button onclick="app.clearCompleted()">Clear completed</button>
+			<button onclick="app.addItem()">Add item</button>
+			<button onclick="app.clearCompleted()">Clear completed</button>
+		</fieldset>
 	</div>
 </body>
 </html>

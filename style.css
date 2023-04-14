@@ -20,3 +20,30 @@ input[type="text"] {
 	font-style: italic;
 	text-decoration: line-through;
 }
+#app.logged-in #login_button{
+	display: none;
+}
+#app:not(.logged-in) #logout_button{
+	display: none;
+}
+#app:not(.logged-in) #save_button{
+	display: none;
+}
+#loader{
+	width: 50px;
+}
+#save_loader{
+	height: 1.2em;
+}
+#app:not(.loading) #loader{
+	display:none;
+}
+#app.loading #tasks_container{
+	display:none;
+}
+#app.saving #save_button{
+	display: none;
+}
+#app:not(.saving) #save_loader{
+	display: none;
+}
